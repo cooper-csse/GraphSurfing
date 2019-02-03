@@ -8,6 +8,7 @@ import java.util.Set;
 
 public class AdjacencyListGraph<T> extends Graph<T> {
 	Map<T,Vertex> keyToVertex;
+	int vertexCount;
 	
 	private class Vertex {
 		T key;
@@ -26,13 +27,13 @@ public class AdjacencyListGraph<T> extends Graph<T> {
 		for (T key : keys) {
 			Vertex v = new Vertex(key);
 			this.keyToVertex.put(key, v);
+			this.vertexCount++;
 		}
 	}
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.vertexCount;
 	}
 
 	@Override
