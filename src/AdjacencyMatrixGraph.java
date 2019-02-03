@@ -128,9 +128,9 @@ public class AdjacencyMatrixGraph<T> extends Graph<T> {
 	}
 
 	@Override
-	public Iterator<T> predecessorIterator(T key) {
-		// TODO Auto-generated method stub
-		return null;
+	public Iterator<T> predecessorIterator(T key) throws NoSuchElementException {
+		try { return new EdgeIterator(this.indexToKey, this.matrix, this.keyToIndex.get(key), false); }
+		catch (NullPointerException e) { throw new NoSuchElementException("Did not find 'key' vertex"); }
 	}
 
 	@Override
