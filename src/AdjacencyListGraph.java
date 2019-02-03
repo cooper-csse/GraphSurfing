@@ -68,9 +68,12 @@ public class AdjacencyListGraph<T> extends Graph<T> {
 	}
 
 	@Override
-	public int outDegree(T key) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int outDegree(T key) throws NoSuchElementException {
+		try {
+			return this.keyToVertex.get(key).successors.size();
+		} catch (NullPointerException e) {
+			throw new NoSuchElementException("Did not find 'key' vertex");
+		}
 	}
 
 	@Override
