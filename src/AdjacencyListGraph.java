@@ -52,8 +52,10 @@ public class AdjacencyListGraph<T> extends Graph<T> {
 
 	@Override
 	public boolean hasEdge(T from, T to) throws NoSuchElementException {
-		// TODO Auto-generated method stub
-		return false;
+		if (!this.keyToVertex.containsKey(from)) throw new NoSuchElementException("Did not find 'from' vertex");
+		if (!this.keyToVertex.containsKey(to)) throw new NoSuchElementException("Did not find 'to' vertex");
+		Vertex fromVertex = this.keyToVertex.get(from), toVertex = this.keyToVertex.get(to);
+		return fromVertex.successors.contains(toVertex);
 	}
 
 	@Override
