@@ -47,8 +47,7 @@ public class AdjacencyListGraph<T> extends Graph<T> {
 
 	@Override
 	public boolean hasVertex(T key) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.keyToVertex.containsKey(key);
 	}
 
 	@Override
