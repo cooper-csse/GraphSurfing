@@ -87,8 +87,7 @@ public class AdjacencyListGraph<T> extends Graph<T> {
 
 	@Override
 	public Set<T> keySet() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.keyToVertex.keySet();
 	}
 
 	@Override
