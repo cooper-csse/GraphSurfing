@@ -11,6 +11,7 @@ public class AdjacencyMatrixGraph<T> extends Graph<T> {
 	List<T> indexToKey;
 	int[][] matrix;
 	int vertexCount;
+	int edgeCount;
 	
 	AdjacencyMatrixGraph(Set<T> keys) {
 		int size = keys.size();
@@ -31,8 +32,7 @@ public class AdjacencyMatrixGraph<T> extends Graph<T> {
 
 	@Override
 	public int numEdges() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.edgeCount;
 	}
 
 	@Override
