@@ -102,8 +102,7 @@ public class AdjacencyMatrixGraph<T> extends Graph<T> {
 
 	@Override
 	public Set<T> keySet() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.keyToIndex.keySet();
 	}
 
 	@Override
