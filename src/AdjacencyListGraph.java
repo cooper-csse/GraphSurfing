@@ -139,8 +139,11 @@ public class AdjacencyListGraph<T> extends Graph<T> {
 
 	@Override
 	public Iterator<T> predecessorIterator(T key) {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return this.keyToVertex.get(key).predecessorsList.iterator();
+		} catch (NullPointerException e) {
+			throw new NoSuchElementException("Did not find 'key' vertex");
+		}
 	}
 
 	@Override
