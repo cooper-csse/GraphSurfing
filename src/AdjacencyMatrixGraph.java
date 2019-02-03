@@ -145,4 +145,36 @@ public class AdjacencyMatrixGraph<T> extends Graph<T> {
 		return null;
 	}
 
+	private class EdgeIterator implements Iterator<T> {
+		List<T> indexToKey;
+		int[][] matrix;
+		int vertexCount;
+		int from;
+		int to = -1;
+		boolean successor;
+
+		public EdgeIterator(List<T> indexToKey, int[][] matrix, int from, boolean successor) {
+			this.indexToKey = indexToKey;
+			this.matrix = matrix;
+			this.vertexCount = this.matrix.length;
+			this.from = from;
+			this.successor = successor;
+		}
+
+		@Override
+		public boolean hasNext() {
+			for (int t = this.to + 1; t < this.vertexCount; t++) if ((this.successor ? this.matrix[from][t] : this.matrix[t][from]) == 1) return true;
+			return false;
+		}
+
+		@Override
+		public T next() {
+			for (int t = this.to + 1; t < this.vertexCount; t++) if ((this.successor ? this.matrix[from][t] : this.matrix[t][from]) == 1) {
+				this.to = t;
+				break;
+			}
+			return this.indexToKey.get(this.to);
+		}
+	}
+
 }
