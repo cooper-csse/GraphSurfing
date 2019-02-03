@@ -1,9 +1,9 @@
 import java.util.*;
 
 public class AdjacencyListGraph<T> extends Graph<T> {
-	Map<T,Vertex> keyToVertex;
-	int vertexCount;
-	int edgeCount;
+	private Map<T,Vertex> keyToVertex;
+	private int vertexCount;
+	private int edgeCount;
 	
 	private class Vertex {
 		T key;
@@ -22,7 +22,7 @@ public class AdjacencyListGraph<T> extends Graph<T> {
 	}
 	
 	AdjacencyListGraph(Set<T> keys) {
-		this.keyToVertex = new HashMap<T,Vertex>();
+		this.keyToVertex = new HashMap<>();
 		for (T key : keys) {
 			Vertex v = new Vertex(key);
 			this.keyToVertex.put(key, v);
@@ -79,10 +79,6 @@ public class AdjacencyListGraph<T> extends Graph<T> {
 		return false;
 	}
 
-	public List<T> getList(T key) {
-		return this.keyToVertex.get(key).successorsList;
-	}
-
 	@Override
 	public int outDegree(T key) throws NoSuchElementException {
 		try { return this.keyToVertex.get(key).successorsSet.size(); }
@@ -90,7 +86,7 @@ public class AdjacencyListGraph<T> extends Graph<T> {
 	}
 
 	@Override
-	public int inDegree(T key) {
+	public int inDegree(T key) throws NoSuchElementException {
 		try { return this.keyToVertex.get(key).predecessorsSet.size(); }
 		catch (NullPointerException e) { throw new NoSuchElementException("Did not find 'key' vertex"); }
 	}
@@ -101,7 +97,7 @@ public class AdjacencyListGraph<T> extends Graph<T> {
 	}
 
 	@Override
-	public Set<T> successorSet(T key) {
+	public Set<T> successorSet(T key) throws NoSuchElementException {
 		try {
 			Set<T> successors = new HashSet<>();
 			for (Vertex edge : this.keyToVertex.get(key).successorsSet) successors.add(edge.key);
@@ -110,7 +106,7 @@ public class AdjacencyListGraph<T> extends Graph<T> {
 	}
 
 	@Override
-	public Set<T> predecessorSet(T key) {
+	public Set<T> predecessorSet(T key) throws NoSuchElementException {
 		try {
 			Set<T> predecessors = new HashSet<>();
 			for (Vertex edge : this.keyToVertex.get(key).predecessorsSet) predecessors.add(edge.key);
@@ -119,13 +115,13 @@ public class AdjacencyListGraph<T> extends Graph<T> {
 	}
 
 	@Override
-	public Iterator<T> successorIterator(T key) {
+	public Iterator<T> successorIterator(T key) throws NoSuchElementException {
 		try { return this.keyToVertex.get(key).successorsList.iterator(); }
 		catch (NullPointerException e) { throw new NoSuchElementException("Did not find 'key' vertex"); }
 	}
 
 	@Override
-	public Iterator<T> predecessorIterator(T key) {
+	public Iterator<T> predecessorIterator(T key) throws NoSuchElementException {
 		try { return this.keyToVertex.get(key).predecessorsList.iterator(); }
 		catch (NullPointerException e) { throw new NoSuchElementException("Did not find 'key' vertex"); }
 	}
