@@ -10,19 +10,23 @@ public class AdjacencyMatrixGraph<T> extends Graph<T> {
 	Map<T,Integer> keyToIndex;
 	List<T> indexToKey;
 	int[][] matrix;
+	int vertexCount;
 	
 	AdjacencyMatrixGraph(Set<T> keys) {
 		int size = keys.size();
 		this.keyToIndex = new HashMap<T,Integer>();
 		this.indexToKey = new ArrayList<T>();
 		this.matrix = new int[size][size];
-		// need to populate keyToIndex and indexToKey with info from keys
+		for (T key : keys) {
+			this.keyToIndex.put(key, this.vertexCount);
+			this.indexToKey.add(key);
+			this.vertexCount++;
+		}
 	}
 	
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.vertexCount;
 	}
 
 	@Override
