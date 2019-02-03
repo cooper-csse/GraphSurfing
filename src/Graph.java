@@ -1,5 +1,3 @@
-
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -133,8 +131,8 @@ public abstract class Graph<T> {
 	
 	/**
 	 * Searches for the shortest path between start and end points in the graph.
-	 * @param start
-	 * @param end
+	 * @param startLabel
+	 * @param endLabel
 	 * @return a list of data, starting with start and ending with end, that gives the path through
 	 * the graph, or null if no such path is found.  
 	 * @throws NoSuchElementException if either key is not found in the graph
