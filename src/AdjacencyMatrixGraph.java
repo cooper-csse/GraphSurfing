@@ -1,10 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Set;
+import java.util.*;
 
 public class AdjacencyMatrixGraph<T> extends Graph<T> {
 	Map<T,Integer> keyToIndex;
@@ -106,9 +100,14 @@ public class AdjacencyMatrixGraph<T> extends Graph<T> {
 	}
 
 	@Override
-	public Set<T> successorSet(T key) {
-		// TODO Auto-generated method stub
-		return null;
+	public Set<T> successorSet(T key) throws NoSuchElementException {
+		try {
+			Set<T> set = new HashSet<>();
+			int from = this.keyToIndex.get(key);
+			for (int to = 0; to < this.vertexCount; to++) if (this.matrix[from][to] == 1) set.add(this.indexToKey.get(to));
+			return set;
+		}
+		catch (NullPointerException e) { throw new NoSuchElementException("Did not find 'key' vertex"); }
 	}
 
 	@Override
