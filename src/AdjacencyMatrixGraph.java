@@ -55,8 +55,10 @@ public class AdjacencyMatrixGraph<T> extends Graph<T> {
 
 	@Override
 	public boolean hasEdge(T from, T to) throws NoSuchElementException {
-		// TODO Auto-generated method stub
-		return false;
+		if (!this.keyToIndex.containsKey(from)) throw new NoSuchElementException("Did not find 'from' vertex");
+		if (!this.keyToIndex.containsKey(to)) throw new NoSuchElementException("Did not find 'to' vertex");
+		int fromIndex = this.keyToIndex.get(from), toIndex = this.keyToIndex.get(to);
+		return this.matrix[fromIndex][toIndex] == 1;
 	}
 
 	@Override
