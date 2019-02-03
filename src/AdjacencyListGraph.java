@@ -7,13 +7,17 @@ public class AdjacencyListGraph<T> extends Graph<T> {
 	
 	private class Vertex {
 		T key;
-		Set<Vertex> successors;
-		Set<Vertex> predecessors;
+		List<T> successorsList;
+		List<T> predecessorsList;
+		Set<Vertex> successorsSet;
+		Set<Vertex> predecessorsSet;
 		
 		Vertex(T key) {
 			this.key = key;
-			this.successors = new HashSet<>();
-			this.predecessors = new HashSet<>();
+			this.successorsList = new ArrayList<>();
+			this.predecessorsList = new ArrayList<>();
+			this.successorsSet = new HashSet<>();
+			this.predecessorsSet = new HashSet<>();
 		}
 	}
 	
@@ -41,7 +45,11 @@ public class AdjacencyListGraph<T> extends Graph<T> {
 		if (!this.keyToVertex.containsKey(from)) throw new NoSuchElementException("Did not find 'from' vertex");
 		if (!this.keyToVertex.containsKey(to)) throw new NoSuchElementException("Did not find 'to' vertex");
 		Vertex fromVertex = this.keyToVertex.get(from), toVertex = this.keyToVertex.get(to);
-		if (fromVertex.successors.add(toVertex) && toVertex.predecessors.add(fromVertex)) { this.edgeCount++; return true; }
+		if (fromVertex.successorsSet.add(toVertex) && toVertex.predecessorsSet.add(fromVertex)) {
+			fromVertex.successorsList.add(to);
+			toVertex.predecessorsList.add(from);
+			this.edgeCount++; return true;
+		}
 		return false;
 	}
 
@@ -55,7 +63,7 @@ public class AdjacencyListGraph<T> extends Graph<T> {
 		if (!this.keyToVertex.containsKey(from)) throw new NoSuchElementException("Did not find 'from' vertex");
 		if (!this.keyToVertex.containsKey(to)) throw new NoSuchElementException("Did not find 'to' vertex");
 		Vertex fromVertex = this.keyToVertex.get(from), toVertex = this.keyToVertex.get(to);
-		return fromVertex.successors.contains(toVertex);
+		return fromVertex.successorsSet.contains(toVertex);
 	}
 
 	@Override
@@ -63,14 +71,22 @@ public class AdjacencyListGraph<T> extends Graph<T> {
 		if (!this.keyToVertex.containsKey(from)) throw new NoSuchElementException("Did not find 'from' vertex");
 		if (!this.keyToVertex.containsKey(to)) throw new NoSuchElementException("Did not find 'to' vertex");
 		Vertex fromVertex = this.keyToVertex.get(from), toVertex = this.keyToVertex.get(to);
-		if (fromVertex.successors.remove(toVertex) && toVertex.predecessors.remove(fromVertex)) { this.edgeCount--; return true; }
+		if (fromVertex.successorsSet.remove(toVertex) && toVertex.predecessorsSet.remove(fromVertex)) {
+			fromVertex.successorsList.remove(to);
+			toVertex.predecessorsList.remove(from);
+			this.edgeCount--; return true;
+		}
 		return false;
+	}
+
+	public List<T> getList(T key) {
+		return this.keyToVertex.get(key).successorsList;
 	}
 
 	@Override
 	public int outDegree(T key) throws NoSuchElementException {
 		try {
-			return this.keyToVertex.get(key).successors.size();
+			return this.keyToVertex.get(key).successorsSet.size();
 		} catch (NullPointerException e) {
 			throw new NoSuchElementException("Did not find 'key' vertex");
 		}
@@ -79,7 +95,7 @@ public class AdjacencyListGraph<T> extends Graph<T> {
 	@Override
 	public int inDegree(T key) {
 		try {
-			return this.keyToVertex.get(key).predecessors.size();
+			return this.keyToVertex.get(key).predecessorsSet.size();
 		} catch (NullPointerException e) {
 			throw new NoSuchElementException("Did not find 'key' vertex");
 		}
@@ -94,7 +110,7 @@ public class AdjacencyListGraph<T> extends Graph<T> {
 	public Set<T> successorSet(T key) {
 		try {
 			Set<T> successors = new HashSet<>();
-			for (Vertex edge : this.keyToVertex.get(key).successors) successors.add(edge.key);
+			for (Vertex edge : this.keyToVertex.get(key).successorsSet) successors.add(edge.key);
 			return successors;
 		} catch (NullPointerException e) {
 			throw new NoSuchElementException("Did not find 'key' vertex");
@@ -105,7 +121,7 @@ public class AdjacencyListGraph<T> extends Graph<T> {
 	public Set<T> predecessorSet(T key) {
 		try {
 			Set<T> predecessors = new HashSet<>();
-			for (Vertex edge : this.keyToVertex.get(key).predecessors) predecessors.add(edge.key);
+			for (Vertex edge : this.keyToVertex.get(key).predecessorsSet) predecessors.add(edge.key);
 			return predecessors;
 		} catch (NullPointerException e) {
 			throw new NoSuchElementException("Did not find 'key' vertex");
