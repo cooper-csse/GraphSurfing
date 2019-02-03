@@ -9,6 +9,7 @@ import java.util.Set;
 public class AdjacencyListGraph<T> extends Graph<T> {
 	Map<T,Vertex> keyToVertex;
 	int vertexCount;
+	int edgeCount;
 	
 	private class Vertex {
 		T key;
@@ -38,8 +39,7 @@ public class AdjacencyListGraph<T> extends Graph<T> {
 
 	@Override
 	public int numEdges() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.edgeCount;
 	}
 
 	@Override
