@@ -1,10 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Set;
+import java.util.*;
 
 public class AdjacencyListGraph<T> extends Graph<T> {
 	Map<T,Vertex> keyToVertex;
@@ -13,13 +7,13 @@ public class AdjacencyListGraph<T> extends Graph<T> {
 	
 	private class Vertex {
 		T key;
-		List<Vertex> successors;
-		List<Vertex> predecessors;
+		Set<Vertex> successors;
+		Set<Vertex> predecessors;
 		
 		Vertex(T key) {
 			this.key = key;
-			this.successors = new ArrayList<Vertex>();
-			this.predecessors = new ArrayList<Vertex>();
+			this.successors = new HashSet<>();
+			this.predecessors = new HashSet<>();
 		}
 	}
 	
@@ -43,8 +37,11 @@ public class AdjacencyListGraph<T> extends Graph<T> {
 	}
 
 	@Override
-	public boolean addEdge(T from, T to) {
-		// TODO Auto-generated method stub
+	public boolean addEdge(T from, T to) throws NoSuchElementException {
+		if (!this.keyToVertex.containsKey(from)) throw new NoSuchElementException("Did not find 'from' vertex");
+		if (!this.keyToVertex.containsKey(to)) throw new NoSuchElementException("Did not find 'to' vertex");
+		Vertex fromVertex = this.keyToVertex.get(from), toVertex = this.keyToVertex.get(to);
+		if (fromVertex.successors.add(toVertex) && toVertex.predecessors.add(fromVertex)) { this.edgeCount++; return true; }
 		return false;
 	}
 
