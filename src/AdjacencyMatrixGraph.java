@@ -111,9 +111,14 @@ public class AdjacencyMatrixGraph<T> extends Graph<T> {
 	}
 
 	@Override
-	public Set<T> predecessorSet(T key) {
-		// TODO Auto-generated method stub
-		return null;
+	public Set<T> predecessorSet(T key) throws NoSuchElementException {
+		try {
+			Set<T> set = new HashSet<>();
+			int to = this.keyToIndex.get(key);
+			for (int from = 0; from < this.vertexCount; from++) if (this.matrix[from][to] == 1) set.add(this.indexToKey.get(from));
+			return set;
+		}
+		catch (NullPointerException e) { throw new NoSuchElementException("Did not find 'key' vertex"); }
 	}
 
 	@Override
