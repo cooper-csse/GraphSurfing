@@ -88,9 +88,16 @@ public class AdjacencyMatrixGraph<T> extends Graph<T> {
 	}
 
 	@Override
-	public int inDegree(T key) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int inDegree(T key) throws NoSuchElementException {
+		try {
+			int to = this.keyToIndex.get(key);
+			int edges = 0;
+			for (int from = 0; from < this.vertexCount; from++) {
+				if (this.matrix[from][to] == 1) edges++;
+			}
+			return edges;
+		}
+		catch (NullPointerException e) { throw new NoSuchElementException("Did not find 'key' vertex"); }
 	}
 
 	@Override
