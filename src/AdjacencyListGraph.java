@@ -78,8 +78,11 @@ public class AdjacencyListGraph<T> extends Graph<T> {
 
 	@Override
 	public int inDegree(T key) {
-		// TODO Auto-generated method stub
-		return 0;
+		try {
+			return this.keyToVertex.get(key).predecessors.size();
+		} catch (NullPointerException e) {
+			throw new NoSuchElementException("Did not find 'key' vertex");
+		}
 	}
 
 	@Override
