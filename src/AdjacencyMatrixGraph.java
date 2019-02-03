@@ -1,16 +1,16 @@
 import java.util.*;
 
 public class AdjacencyMatrixGraph<T> extends Graph<T> {
-	Map<T,Integer> keyToIndex;
-	List<T> indexToKey;
-	int[][] matrix;
-	int vertexCount;
-	int edgeCount;
+	private Map<T,Integer> keyToIndex;
+	private List<T> indexToKey;
+	private int[][] matrix;
+	private int vertexCount;
+	private int edgeCount;
 	
 	AdjacencyMatrixGraph(Set<T> keys) {
 		int size = keys.size();
-		this.keyToIndex = new HashMap<T,Integer>();
-		this.indexToKey = new ArrayList<T>();
+		this.keyToIndex = new HashMap<>();
+		this.indexToKey = new ArrayList<>();
 		this.matrix = new int[size][size];
 		for (T key : keys) {
 			this.keyToIndex.put(key, this.vertexCount);
@@ -73,9 +73,7 @@ public class AdjacencyMatrixGraph<T> extends Graph<T> {
 		try {
 			int from = this.keyToIndex.get(key);
 			int edges = 0;
-			for (int to = 0; to < this.vertexCount; to++) {
-				if (this.matrix[from][to] == 1) edges++;
-			}
+			for (int to = 0; to < this.vertexCount; to++) if (this.matrix[from][to] == 1) edges++;
 			return edges;
 		}
 		catch (NullPointerException e) { throw new NoSuchElementException("Did not find 'key' vertex"); }
@@ -86,9 +84,7 @@ public class AdjacencyMatrixGraph<T> extends Graph<T> {
 		try {
 			int to = this.keyToIndex.get(key);
 			int edges = 0;
-			for (int from = 0; from < this.vertexCount; from++) {
-				if (this.matrix[from][to] == 1) edges++;
-			}
+			for (int from = 0; from < this.vertexCount; from++) if (this.matrix[from][to] == 1) edges++;
 			return edges;
 		}
 		catch (NullPointerException e) { throw new NoSuchElementException("Did not find 'key' vertex"); }
@@ -153,7 +149,7 @@ public class AdjacencyMatrixGraph<T> extends Graph<T> {
 		int to = -1;
 		boolean successor;
 
-		public EdgeIterator(List<T> indexToKey, int[][] matrix, int from, boolean successor) {
+		EdgeIterator(List<T> indexToKey, int[][] matrix, int from, boolean successor) {
 			this.indexToKey = indexToKey;
 			this.matrix = matrix;
 			this.vertexCount = this.matrix.length;
@@ -169,10 +165,7 @@ public class AdjacencyMatrixGraph<T> extends Graph<T> {
 
 		@Override
 		public T next() {
-			for (int t = this.to + 1; t < this.vertexCount; t++) if ((this.successor ? this.matrix[from][t] : this.matrix[t][from]) == 1) {
-				this.to = t;
-				break;
-			}
+			for (int t = this.to + 1; t < this.vertexCount; t++) if ((this.successor ? this.matrix[from][t] : this.matrix[t][from]) == 1) { this.to = t; break; }
 			return this.indexToKey.get(this.to);
 		}
 	}
