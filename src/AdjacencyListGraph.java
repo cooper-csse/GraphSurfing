@@ -103,8 +103,13 @@ public class AdjacencyListGraph<T> extends Graph<T> {
 
 	@Override
 	public Set<T> predecessorSet(T key) {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			Set<T> predecessors = new HashSet<>();
+			for (Vertex edge : this.keyToVertex.get(key).predecessors) predecessors.add(edge.key);
+			return predecessors;
+		} catch (NullPointerException e) {
+			throw new NoSuchElementException("Did not find 'key' vertex");
+		}
 	}
 
 	@Override
